@@ -16,6 +16,13 @@ const VideoSection = () => {
           <i className="text-4xl fas fa-chevron-down"></i>
         </Link>
       </div>
+      <div className="absolute right-20 top-20 h-3/4 flex flex-col justify-between">
+        <p className="text-xl text-white">Sola Scriptura</p>
+        <p className="text-xl text-white">Sola Fide</p>
+        <p className="text-xl text-white">Sola Gratia</p>
+        <p className="text-xl text-white">Solus Christus</p>
+        <p className="text-xl text-white">Soli Deo Gloria</p>
+      </div>
     </div>
   );
 };
