@@ -1,0 +1,20 @@
+/* Assuming you have a custom font file named "CustomFont.ttf" */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap');
+  }
+  
+
+  
+  /* Apply the font to the li elements */
+  li {
+    font-family: "CustomFont", sans-serif;
+  }
+
+.main {
+  width: 100%;
+  height: 100vh;
+}
+  

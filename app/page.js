@@ -1,4 +1,23 @@
-import Image from 'next/image'
+import React from "react"
+import "./font-styles.css"
+import Navbar from "./NavBar";
+import VideoSection from "./Video";
+import Product from "./product";
+
+const App = () => {
+  return (
+    <div>
+      <Navbar />
+      <VideoSection />
+      <Product />
+    </div>
+  );
+};
+
+export default App;
+
+
+/* import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -111,3 +130,5 @@ export default function Home() {
     </main>
   )
 }
+
+*/
