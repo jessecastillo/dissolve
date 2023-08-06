@@ -10,13 +10,15 @@ const VideoSection = () => {
       </video>
       <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
         {/* Add the text above the arrow */}
+        <Link href="#product-section">
         <p className="text-xl text-white font-semibold mb-4">For those who Seek...</p>
+        </Link>       
         <Link href="#product-section">
           {/* Replace the existing arrow with a Font Awesome arrow */}
           <i className="text-4xl fas fa-chevron-down"></i>
         </Link>
       </div>
-      <div className="absolute right-20 top-20 h-3/4 flex flex-col justify-between">
+      <div className="absolute right-24 top-20 h-3/4 flex flex-col justify-between">
         <p className="text-xl text-white">Sola Scriptura</p>
         <p className="text-xl text-white">Sola Fide</p>
         <p className="text-xl text-white">Sola Gratia</p>

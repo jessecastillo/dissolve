@@ -1,12 +1,9 @@
-import React from "react"
-import "./font-styles.css"
+import React from "react";
+import "./font-styles.css";
 import Navbar from "./NavBar";
 import VideoSection from "./Video";
-import Product from "./product";
+import Product from "./product/page";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
-
-
 
 const App = () => {
   return (
@@ -19,6 +16,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 /* import Image from 'next/image'
