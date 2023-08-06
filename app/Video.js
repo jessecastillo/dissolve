@@ -5,7 +5,11 @@ import Navbar from "./Components/NavBar";
 import animationStyles from "./animation.css";
 import styles from "./VideoSection.module.css";
 
+
+
 const VideoSection = () => {
+
+
   return (
     <div className="main relative h-screen">
       <video className="fixed z-[-1] w-full h-full object-cover" autoPlay muted loop>
@@ -38,7 +42,7 @@ const VideoSection = () => {
       {/* Add Wisdom and wear text */}
       <div className={styles.wisdomWearContainer}>
         {/* Use the Image component to display the .png image */}
-        <div style={{ position: "bottom", top: "100%", left: "20%", transform: "translate(15%, 40%)" }}>
+        <div style={{ position: "bottom", top: "100%", left: "20%", transform: "translate(-38%, 30%)" }}>
           <Image src="/WisdomWear.png" alt="Wisdom" width={400} height={400} />
         </div>
       </div>
