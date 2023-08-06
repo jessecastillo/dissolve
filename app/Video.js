@@ -1,5 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
+import Navbar from "./Components/NavBar";
+import animationStyles from "./animation.css";
+import styles from "./VideoSection.module.css";
 
 const VideoSection = () => {
   return (
@@ -11,8 +15,8 @@ const VideoSection = () => {
       <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
         {/* Add the text above the arrow */}
         <Link href="#product-section">
-        <p className="text-xl text-white font-semibold mb-4">For those who Seek...</p>
-        </Link>       
+          <p className="text-xl text-white font-semibold mb-4">For those who Seek...</p>
+        </Link>
         <Link href="#product-section">
           {/* Replace the existing arrow with a Font Awesome arrow */}
           <i className="text-4xl fas fa-chevron-down"></i>
@@ -24,6 +28,19 @@ const VideoSection = () => {
         <p className="text-xl text-white">Sola Gratia</p>
         <p className="text-xl text-white">Solus Christus</p>
         <p className="text-xl text-white">Soli Deo Gloria</p>
+      </div>
+      {/* Add Wisdom and wear text */}
+      {/*<div className={styles.wisdomWearContainer}>
+        <div className={styles.wisdomText}>Wisdom</div>
+        <div className={styles.wearText}>wear</div>
+      </div>
+      */}
+      {/* Add Wisdom and wear text */}
+      <div className={styles.wisdomWearContainer}>
+        {/* Use the Image component to display the .png image */}
+        <div style={{ position: "bottom", top: "100%", left: "20%", transform: "translate(15%, 40%)" }}>
+          <Image src="/WisdomWear.png" alt="Wisdom" width={400} height={400} />
+        </div>
       </div>
     </div>
   );

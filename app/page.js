@@ -4,10 +4,11 @@ import Navbar from "./Components/NavBar";
 import VideoSection from "./Video";
 import Product from "./product/page";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import BlogPage from "./blog/page";
 
 const App = () => {
   return (
-    <div>
+    <div className="flex-col items-center">
       <Navbar />
       <VideoSection />
       <Product />
