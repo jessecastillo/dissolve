@@ -1,6 +1,6 @@
 import React from "react";
 import "./font-styles.css";
-import Navbar from "./NavBar";
+import Navbar from "./Components/NavBar";
 import VideoSection from "./Video";
 import Product from "./product/page";
 import "@fortawesome/fontawesome-free/css/all.min.css";
