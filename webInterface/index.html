@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>Web Interface</title>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-neutral-800 min-h-screen flex flex-col items-center justify-center">
+    <div class="bg-black shadow-lg border border-white/20 rounded-lg p-8 max-w-md w-full relative"></div>
+        <h1 class="font-extralight hover:rotate-180 hover:opacity-75 hover:font-serif text-white text-4xl justify-center absolute top-0 mt-20">Dissolve.dev</h1>
+        <div class="bg-black shadow-lg border border-white/20 rounded-lg p-8 max-w-md w-full">
+            <h1 class="text-white text-2x1 justify-center mb-4 ml-24">Welcome to Dissolve.dev!</h1>
+            <p class="text-gray-600 mb-6 ml-16">Which portal would you like to visit?</p>
+            <button class="bg-blue-500 text-white px-4 py-2 ml-8 rounded hover:bg-blue-600">
+                <a href="http://localhost:5000" target="_blank">Customer Portal</a>
+            </button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <a href="http://localhost:5001" target="_blank">Analysis Dashboard</a>
+            </form>
+        </div>
+        <!-- Glass effect div -->
+        <div class="bg-sky-600/40 backdrop-blur-md border border-white/40 text-white mt-4 shadow-lg rounded-lg p-8 max-w-md w-full relative">
+            <h1 class="ml-20">Hi there! This is a test.</h1>
+            <!-- Animated Light -->
+        <div class="light-circle"></div>
+    </div>
+    <style>
+        .light-circle {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.0));
+            border-radius: 50%;
+            position: absolute;
+            animation: move-light 10s linear infinite;
+            filter: blur(20px);
+
+}
+
+/* Constrain the animation path to the parent div */
+@keyframes move-light {
+    0% {
+        top: 50%;
+        left: 0;
+    }
+    25% {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        top: 50%;
+        left: 100%;
+        transform: translate(-100%, -50%);
+    }
+    75% {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -100%);
+    }
+    100% {
+        top: 50%;
+        left: 0;
+    }
+}
+      </style>
+</body>
+</html>
