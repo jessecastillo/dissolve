@@ -17,14 +17,15 @@
     }
 
     .matrix-container {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+    position: relative;
+    width: 100%;
+    height: 400px; /* Increase height for better spacing */
+    display: flex;
+    flex-direction: column; /* Stack title and typing container vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    overflow: hidden; /* Hide the matrix overflow */
+}
 
     #matrix {
       position: absolute;
@@ -36,18 +37,43 @@
       pointer-events: none;
     }
 
-    h1 {
-      position: relative;
-      z-index: 1; /* Bring text above canvas */
-      font-size: 6rem;
-      font-weight: 300;
-      text-align: center;
-      text-shadow: 
-        0 0 10px rgba(173, 216, 230, 0.4), 
-        0 0 20px rgba(173, 216, 230, 0.3), 
-        0 0 30px rgba(147, 112, 219, 0.2);
-        transition: all 0.3s ease-in-out;
+    #typing-container {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    color: white;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-top: 15px; /* Adjust margin for spacing below the title */
+    font-size: 2rem;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text during typing animation */
+    border-right: 2px solid white; /* Simulate a blinking cursor */
+    height: 2.5rem; /* Fixed height based on the font size */
+    line-height: 2.5rem; /* Center the text vertically */
+    animation: blink 0.7s steps(1) infinite;
     }
+
+/* Cursor blink effect */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+    h1 {
+        position: relative;
+        z-index: 1;
+        font-size: 6rem;
+        font-weight: 300;
+        text-align: center;
+        margin: 0; /* Remove any default margin */
+        text-shadow: 
+            0 0 10px rgba(173, 216, 230, 0.4),
+            0 0 20px rgba(173, 216, 230, 0.3),
+            0 0 30px rgba(147, 112, 219, 0.2);
+        transition: all 0.3s ease-in-out;
+}
     
     h1:hover {
     text-shadow: 
@@ -63,6 +89,7 @@
   <div class="matrix-container">
     <canvas id="matrix"></canvas>
     <h1 class="hover:rotate-180 hover:opacity-75 text-4xl font-light">Dissolve.dev</h1>
+    <div id="typing-container" class="mt-4 text-3xl text-white text-center"></div>
   </div>
 
   <div class="bg-black shadow-lg border border-white/20 rounded-lg p-8 max-w-md w-full mx-auto mt-8">
@@ -91,7 +118,7 @@
     const drops = Array(columns).fill(0);
 
     function drawMatrix() {
-      ctx.fillStyle = 'rgba(30, 41, 59, 0.2)';
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.80)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = '#0f0';
@@ -117,6 +144,48 @@
     });
 
     setInterval(drawMatrix, 60);
+  </script>
+  <script>
+    const typingContainer = document.getElementById('typing-container');
+  
+    // Text sequences
+    const texts = ["Jesse Castillo", "DJ Merixium", "Ponder"];
+    let textIndex = 0; // Current text index
+    let charIndex = 0; // Current character index
+    let isDeleting = false; // Whether we're deleting text
+    const typingSpeed = 100; // Typing speed in ms
+    const deletingSpeed = 50; // Deleting speed in ms
+    const pauseTime = 1500; // Pause before deleting or moving to next text
+  
+    function type() {
+      const currentText = texts[textIndex];
+      if (isDeleting) {
+        // Delete characters
+        charIndex--;
+        typingContainer.textContent = currentText.substring(0, charIndex);
+      } else {
+        // Type characters
+        charIndex++;
+        typingContainer.textContent = currentText.substring(0, charIndex);
+      }
+  
+      // Adjust timing based on typing/deleting
+      const currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
+  
+      if (!isDeleting && charIndex === currentText.length) {
+        // Pause before deleting
+        setTimeout(() => (isDeleting = true), pauseTime);
+      } else if (isDeleting && charIndex === 0) {
+        // Move to the next text
+        isDeleting = false;
+        textIndex = (textIndex + 1) % texts.length; // Loop back to the start
+      }
+  
+      setTimeout(type, currentSpeed);
+    }
+  
+    // Start the typing effect
+    type();
   </script>
 </body>
 </html>
