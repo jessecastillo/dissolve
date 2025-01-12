@@ -176,7 +176,13 @@
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(0);
 
+    // Flag
+    let isRunning = true;
+    let lastFrameTime = 0;
+    const fpsInterval = 1000 / 30;
+
     function drawMatrix() {
+
       ctx.fillStyle = '#0D1117';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -195,6 +201,25 @@
       }
     }
 
+    function animate(currentTime) {
+        if(!isRunning) return;
+
+        const elapsed = currentTime - lastFrameTime;
+        if (elapsed >= fpsInterval) {
+            lastFrameTime = currentTime;
+            drawMatrix();
+        }
+        requestAnimationFrame(animate);
+    }
+
+    container.addEventListener('mousedown', () => {
+        isRunning = false;
+    })
+    container.addEventListener('mouseup', () => {
+        isRunning = true;
+        requestAnimationFrame(animate);
+    })
+
     window.addEventListener('resize', () => {
       canvas.width = container.offsetWidth;
       canvas.height = container.offsetHeight;
@@ -202,7 +227,7 @@
       drops.fill(0);
     });
 
-    setInterval(drawMatrix, 60);
+    requestAnimationFrame(animate);
   </script>
   <script>
     const typingContainer = document.getElementById('typing-container');
