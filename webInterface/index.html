@@ -137,6 +137,7 @@
         }
     }
 
+
   </style>
 </head>
 <body>
@@ -148,20 +149,21 @@
 
   <div class="cards-container mx-auto mt-8 p-4">
     <!--card 1-->
-    <div class="card" onclick="window.location.href='https://github.com/jessecastillo';">
+    <div id="card-a" class="card" onclick="window.location.href='https://github.com/jessecastillo';">
         <h2 class="">Github Profile</h2>
     </div>
 
     <!--card 2-->
-    <div class="card" onclick="window.location.href='https://wisdomwear.net';">
+    <div id="card-b" class="card" onclick="window.location.href='https://wisdomwear.net';">
         <h2 class="">WisdomWear.net</h2>
     </div>
 
     <!--card 3-->
-    <div class="card">
+    <div id="card-c" class="card">
         <h2 class="">Coming Soon!</h2>
     </div>
     </div>
+
     </div>
 
   <script>
@@ -176,60 +178,164 @@
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(0);
 
-    // Flag
-    let isRunning = true;
-    let lastFrameTime = 0;
-    const fpsInterval = 1000 / 30;
+    const title = document.querySelector('h1');
+    const textAnimationContainer = document.getElementById('typing-container'); // Reuse existing element
 
-    function drawMatrix() {
+    let gravity  = 0.08;
 
-      ctx.fillStyle = '#0D1117';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Adjust for canvas position
+    function getBoundingBoxes() {
+        const canvasBox = canvas.getBoundingClientRect();
+        const titleBox = title.getBoundingClientRect();
+        const typingBox = textAnimationContainer.getBoundingClientRect();
 
-      ctx.fillStyle = '#D8BFD8';
-      ctx.font = `${fontSize}px monospace`;
+  return {
+    titleBox: {
+      left: titleBox.left - canvasBox.left,
+      right: titleBox.right - canvasBox.left,
+      top: titleBox.top - canvasBox.top,
+      bottom: titleBox.bottom - canvasBox.top,
+    },
+    typingBox: {
+      left: typingBox.left - canvasBox.left,
+      right: typingBox.right - canvasBox.left,
+      top: typingBox.top - canvasBox.top,
+      bottom: typingBox.bottom - canvasBox.top,
+    },
+  };
+}
 
-      for (let i = 0; i < drops.length; i++) {
-        const char = String.fromCharCode(0x30A0 + Math.random() * 96);
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+// Store characters affected by physics
+const fallenChars = [];
 
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
+// Simulate gravity for fallen characters
+function applyPhysics() {
+  for (let i = 0; i < fallenChars.length; i++) {
+    const char = fallenChars[i];
+    char.y += char.vy; // Apply vertical velocity
+    char.vy += gravity; // Simulate gravity
 
-        drops[i]++;
-      }
+    // Apply horizontal movement if there's a direction
+    char.x += char.vx;
+
+    // Render the character
+    ctx.fillText(char.char, char.x, char.y);
+
+    // Remove the character if it goes off-screen
+    if (char.y > canvas.height || char.x < 0 || char.x > canvas.width) {
+      fallenChars.splice(i, 1);
+      i--;
+    }
+  }
+}
+
+// Draw the characters with collision detection
+function drawMatrix() {
+  ctx.fillStyle = '#0D1117';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#D8BFD8';
+  ctx.font = `${fontSize}px monospace`;
+
+  const { titleBox } = getBoundingBoxes();
+
+  for (let i = 0; i < drops.length; i++) {
+    const x = i * fontSize;
+    const y = drops[i] * fontSize;
+
+    // Check for collisions
+    const isInTitle =
+      x > titleBox.left && x < titleBox.right && y > titleBox.top && y < titleBox.bottom;
+    const isNearTitle =
+      (x < titleBox.left - 20 || x > titleBox.right + 20) &&
+      y > titleBox.top - 50 &&
+      y < titleBox.bottom + 50;
+
+      if (isInTitle && Math.random() > 0.6) {
+
+      // Add the character to fallenChars with initial physics properties
+      fallenChars.push({
+        char: String.fromCharCode(0x30A0 + Math.random() * 96),
+        x: x,
+        y: y,
+        vx: Math.random() * 2 - 1, // Slight horizontal direction
+        vy: -2, // Initial upward velocity to make it "bounce"
+      });
+            // Reset drop to start from top
+            drops[i] = 0;
+    } else if (isNearTitle && Math.random() > 0.85) {
+        fallenChars.push({ 
+            char: String.fromCharCode(0x30A0 + Math.random() * 96),
+            x: x,
+            y: y,
+            vx: Math.random() * 1 - 0.5, // Slower horizontal velocity for side characters
+            vy: 0.5, // Gentle fall for nearby characters
+        });
+        drops[i] = 0;
+    } else if (Math.random() > 0.95) {
+      ctx.fillText(
+        String.fromCharCode(0x30A0 + Math.random() * 96), x, y);
+      
+    } 
+
+
+    // Reset drop if it reaches the bottom
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
     }
 
-    function animate(currentTime) {
-        if(!isRunning) return;
+    drops[i]++;
+  }
 
-        const elapsed = currentTime - lastFrameTime;
-        if (elapsed >= fpsInterval) {
-            lastFrameTime = currentTime;
-            drawMatrix();
-        }
-        requestAnimationFrame(animate);
-    }
+    applyPhysics();
+}
 
-    container.addEventListener('mousedown', () => {
-        isRunning = false;
-    })
-    container.addEventListener('mouseup', () => {
-        isRunning = true;
-        requestAnimationFrame(animate);
-    })
+// Animation loop
+let isRunning = true;
+let lastFrameTime = 0;
+const fpsInterval = 1000 / 30;
 
-    window.addEventListener('resize', () => {
-      canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight;
-      drops.length = Math.floor(canvas.width / fontSize);
-      drops.fill(0);
-    });
+function animate(currentTime) {
+  if (!isRunning) return;
 
-    requestAnimationFrame(animate);
+  const elapsed = currentTime - lastFrameTime;
+  if (elapsed >= fpsInterval) {
+    lastFrameTime = currentTime;
+    drawMatrix();
+  }
+  requestAnimationFrame(animate);
+}
+
+// Pause/resume logic
+container.addEventListener('mousedown', () => {
+  isRunning = false;
+});
+container.addEventListener('mouseup', () => {
+  isRunning = true;
+  requestAnimationFrame(animate);
+});
+
+// Handle resizing
+window.addEventListener('resize', () => {
+  canvas.width = container.offsetWidth;
+  canvas.height = container.offsetHeight;
+  drops.length = Math.floor(canvas.width / fontSize);
+  drops.fill(0);
+});
+
+title.addEventListener('mouseenter', () => {
+    gravity = .9;
+});
+
+title.addEventListener('mouseleave', () =>{
+    gravity = 0.08;
+})
+
+// Start the animation
+requestAnimationFrame(animate);
   </script>
-  <script>
+
+    <script>
     const typingContainer = document.getElementById('typing-container');
   
     // Text sequences
