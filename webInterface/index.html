@@ -38,6 +38,25 @@
       pointer-events: none;
     }
 
+    #pause-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px 15px;
+        background-color: #252525;
+        color: white;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3 ease;
+        z-index: 2;
+    }
+
+    #pause-button:hover {
+        background-color: #3a3a3a;
+    }
+
     #typing-container {
     font-family: 'Garamond', sans-serif;
     font-weight: 300;
@@ -146,6 +165,7 @@
     <h1 class="hover:rotate-180 hover:opacity-75 text-4xl font-light">Dissolve.dev</h1>
     <div id="typing-container" class="mt-4 text-3xl text-white text-center"></div>
   </div>
+    <button id="pause-button">Pause</button>
 
   <div class="cards-container mx-auto mt-8 p-4">
     <!--card 1-->
@@ -169,6 +189,7 @@
   <script>
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
+    const pauseButton = document.getElementById('pause-button');
 
     const container = document.querySelector('.matrix-container');
     canvas.width = container.offsetWidth;
@@ -290,46 +311,56 @@ function drawMatrix() {
     applyPhysics();
 }
 
-// Animation loop
-let isRunning = true;
-let lastFrameTime = 0;
-const fpsInterval = 1000 / 30;
+    // Animation loop
+    let isRunning = true;
+    let lastFrameTime = 0;
+    const fpsInterval = 1000 / 30;
 
-function animate(currentTime) {
-  if (!isRunning) return;
+    function animate(currentTime) {
+    if (!isRunning) return;
 
-  const elapsed = currentTime - lastFrameTime;
-  if (elapsed >= fpsInterval) {
-    lastFrameTime = currentTime;
-    drawMatrix();
-  }
-  requestAnimationFrame(animate);
-}
+    const elapsed = currentTime - lastFrameTime;
+    if (elapsed >= fpsInterval) {
+        lastFrameTime = currentTime;
+        drawMatrix();
+    }
+    requestAnimationFrame(animate);
+    }
 
-// Pause/resume logic
-container.addEventListener('mousedown', () => {
-  isRunning = false;
+
+    // Pause/resume logic
+    container.addEventListener('mousedown', () => {
+    isRunning = false;
+    });
+    container.addEventListener('mouseup', () => {
+    isRunning = true;
+    requestAnimationFrame(animate);
+    });
+
+    // Handle resizing
+    window.addEventListener('resize', () => {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+    drops.length = Math.floor(canvas.width / fontSize);
+    drops.fill(0);
+    });
+
+    title.addEventListener('mouseenter', () => {
+        gravity = .9;
+    });
+
+    title.addEventListener('mouseleave', () =>{
+        gravity = 0.08;
+    })
+
+    // Toggle animation on button click
+    pauseButton.addEventListener('click', () => {
+    isRunning = !isRunning;
+    pauseButton.textContent = isRunning ? 'Pause' : 'Play';
+    if (isRunning) {
+        requestAnimationFrame(animate); // Restart the animation loop if resumed
+    }
 });
-container.addEventListener('mouseup', () => {
-  isRunning = true;
-  requestAnimationFrame(animate);
-});
-
-// Handle resizing
-window.addEventListener('resize', () => {
-  canvas.width = container.offsetWidth;
-  canvas.height = container.offsetHeight;
-  drops.length = Math.floor(canvas.width / fontSize);
-  drops.fill(0);
-});
-
-title.addEventListener('mouseenter', () => {
-    gravity = .9;
-});
-
-title.addEventListener('mouseleave', () =>{
-    gravity = 0.08;
-})
 
 // Start the animation
 requestAnimationFrame(animate);
