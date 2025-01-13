@@ -8,6 +8,16 @@
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" type="text/css" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- License for grid-->
+  <!--Copyright (c) 2025 by Alinaki (https://codepen.io/alinaki/pen/KwPwVPr)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  -->
+
   <style>
     body {
       margin: 0;
@@ -102,41 +112,33 @@
       0 0 40px rgba(147, 112, 219, 0.4);
     transform: scale(1.05);
     }
-    
-    .cards-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.5rem;
-        background-color: transparent;
-        padding: 2rem 1rem;
-    }
 
-    .card{
-        background-color: #1E1E1E;
-        color: white;
-        width: calc(33.33% - 1rem); /* Adjust width based on the number of cards */
-        min-width: 200px;
-        padding: 1.5rem;
-        text-align: center;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
     .card h2{
         font-size: 1.5rem;
         margin: 0;
         font-family: 'Inter', sans-serif;
     }
 
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Align cards to the left */
+      gap: 1.5rem;
+      padding: 2rem 1rem;
+      left: 5%; /* Push the container to the right */
+      position: relative;
+      z-index: 2;
+    }
+
+
+    .card {
+      width: 30%;
+    }
     .card:hover{
         transform: scale(1.05);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         background-color: #252525;
+        cursor: pointer;
     }
 
     .card:hover::after{
@@ -236,12 +238,50 @@
       transform: translate3d(-50%, -50%, 0);
     }
 
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2; /* Bring buttons to the foreground */
+    }
+
     @media (max-width: 768px) {
         .card {
             width: 100%;
         }
     }
 
+      /* Media Query for Small Screens (e.g., phones) */
+  @media (max-width: 768px) {
+    .card {
+      width: 45%; /* On mobile, make each card take 100% width */
+      margin: 0%;
+    }
+
+    .card:hover::after {
+      left: -10%; /* Limit hover effect to 80% of the screen width */
+      right: -10%;
+      top: -20%;
+      bottom: -20%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      width: 45%; /* Even smaller screen: adjust card width */
+      margin: 0 auto; /* Center the cards */
+    }
+
+    .card:hover::after {
+      left: -15%; /* Reduce hover effect further for very small screens */
+      right: -15%;
+      top: -25%;
+      bottom: -25%;
+    }
+  }
 
   </style>
 </head>
@@ -260,11 +300,85 @@
    </div>
       <button id="pause-button">Pause</button>
 
+      <!-- Gooey Effect Buttons -->
+<!--
+<div class="button-container">
+  <button class="btn-90">
+    <span>Github Profile</span>
+    <div class="blobs"></div>
+    <svg>
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="
+              1 0 0 0 0  
+              0 1 0 0 0  
+              0 0 1 0 0  
+              0 0 0 30 -15"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+  </button>
+
+  <button class="btn-90">
+    <span>WisdomWear.net</span>
+    <div class="blobs"></div>
+    <svg>
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="
+              1 0 0 0 0  
+              0 1 0 0 0  
+              0 0 1 0 0  
+              0 0 0 30 -15"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+  </button>
+
+  <button class="btn-90">
+    <span>Coming Soon</span>
+    <div class="blobs"></div>
+    <svg>
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="
+              1 0 0 0 0  
+              0 1 0 0 0  
+              0 0 1 0 0  
+              0 0 0 30 -15"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+  </button>
+</div>
+-->
   <div class="cards-container mx-auto mt-8 p-4">
     <!--card 1-->
-    <div id="card-a" class="card" onclick="window.location.href='https://github.com/jessecastillo';">
-        <h2 class="">Github Profile</h2>
-    </div>
+      
+      <div id="card-a" class="card" onclick="window.location.href='https://github.com/jessecastillo';">
+          <h2 class="">Github Profile</h2>
+      </div>
 
 
     <!--card 2-->
@@ -276,8 +390,8 @@
 
     <!--card 3-->
 
-    <div id="card-c" class="card">
-        <h2 class="">Coming Soon!</h2>
+    <div id="card-c" class="card" onclick="window.location.href='https://merixium.com';">
+        <h2 class="">Merixium.com</h2>
     </div>
 
 
