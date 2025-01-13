@@ -24,6 +24,7 @@
       background: #1A1A1A; /* Neutral background color */
       color: white;
       font-family: 'Inter', sans-serif;
+      overflow: hidden; /* The grid has some overflow where you can put an Easter egg if you comment out of hidden: overflow */
     }
 
     .matrix-container {
@@ -130,10 +131,44 @@
       z-index: 2;
     }
 
+    @keyframes subtle-bounce {
+      0%, 100% {
+       transform: translateY(0); /* No vertical movement at the start and end */
+    }
+     50% {
+      transform: translateY(-5px); /* Move up slightly */
+    }
+}
 
     .card {
       width: 30%;
+      animation: subtle-bounce 2s infinite; /* Apply the bounce animation */
+      animation-timing-function: ease-in-out; /* Smooth in and out */
+      will-change: transform; /* Optimize performance for transform animations */
+      position: relative;
     }
+
+    .card:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .card:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+    card:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+    card:nth-child(6) {
+      animation-delay: 0.5s;
+    }
+    /* Repeat for other cards */
+
     .card:hover{
         transform: scale(1.05);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
@@ -151,7 +186,9 @@
         border-radius: 12px;
         box-shadow: 0 0 15px rgba(173, 216, 230, 0.7);
         z-index: -1;
+
     }
+
 
     .spacer {
         flex-basis: 100%;
@@ -173,6 +210,7 @@
       z-index: -1; /* Send it behind all other elements */
       pointer-events: none; /* Prevent it from blocking clicks */
       background: #16dfaa;
+      overflow: hidden;
     }
 
     .k-hold {
@@ -398,7 +436,7 @@
     <div class="spacer"></div>
 
     <div id="card-4" class = "card">
-        <h2>Card 4</h2>
+        <h2>Résumé(Uploading Soon)</h2>
     </div>
     <div id="card-5" class = "card">
         <h2>Card 5</h2>
